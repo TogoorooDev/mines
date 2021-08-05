@@ -1,8 +1,8 @@
 use std::io::{stdin, stdout, Write};
+use std::vec;
 
-struct Board {
-	
-}
+mod render;
+mod types;
 
 fn get_input(prompt: String) -> String {
 	print!("{}", prompt);
@@ -49,13 +49,27 @@ fn main() {
 			}
 		}
 	}
+	
+	let game_board = build_board(size);
+	render::render_board(game_board);
 }
 
-fn build_board(xy: i32) {
+fn build_board(xy: u8) -> types::Board {
+	let mut board: Vec<types::Line> = Vec::new();
+	for i in 0..xy {
+		let line = build_line(xy);
+		board.push(line);
+	}
 	
+	types::Board { lines: board, length: xy }
 }
 
+fn build_line(count: u8) -> types::Line {
+	let mut line: Vec<types::Tile> = Vec::new();
+	for i in 0..count {
+		line.push(types::Tile{ is_mine: false, is_uncovered: false, number: 0 });
+	}
 
-fn render_board(board: Board) {
 	
+	types::Line{ tiles: line }
 }
